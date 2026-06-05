@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/trend_bg"
+    android:fillViewport="true"
+    android:paddingBottom="96dp"
+    tools:context=".SupportFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp">
+
+            <TextView
+                android:id="@+id/tvMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="☰"
+                android:textColor="@color/trend_text"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvBrand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif"
+                android:text="TRENDIFY"
+                android:textColor="@color/trend_text"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvBag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👜"
+                android:textColor="@color/trend_text"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="HỖ TRỢ TẬN TÂM"
+            android:textColor="@color/trend_text"
+            android:textSize="30sp"
+            android:textStyle="normal"
+            android:lineSpacingExtra="2dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="12dp"
+            android:text="Đội ngũ Concierge của chúng tôi luôn sẵn sàng đồng hành cùng quý khách 24/7."
+            android:textColor="@color/trend_muted"
+            android:textSize="14sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="390dp"
+            android:layout_marginTop="22dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/scene_support_hero" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|start"
+                    android:padding="18dp"
+                    android:fontFamily="serif"
+                    android:text="Sự hài lòng của quý khách\nlà tâm điểm của Trendify."
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="italic"
+                    android:lineSpacingExtra="2dp" />
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:paddingTop="34dp"
+            android:text="CHIA SẺ TRẢI NGHIỆM"
+            android:textColor="@color/trend_text"
+            android:textSize="28sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="Ý kiến của bạn giúp chúng tôi hoàn thiện dịch vụ cá nhân hóa mỗi ngày."
+            android:textColor="@color/trend_muted"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:text="☆ ☆ ☆ ☆ ☆"
+            android:textColor="@color/trend_gold"
+            android:textSize="18sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="0dp"
+            app:boxCornerRadiusBottomStart="0dp"
+            app:boxCornerRadiusTopEnd="0dp"
+            app:boxCornerRadiusTopStart="0dp"
+            app:boxStrokeColor="@color/trend_border"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:gravity="top"
+                android:hint="Chia sẻ thêm về trải nghiệm của bạn cùng stylist..."
+                android:inputType="textMultiLine"
+                android:textColor="@color/trend_text"
+                android:textColorHint="@color/trend_muted"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="14dp"
+            android:backgroundTint="@color/trend_text"
+            android:text="GỬI PHẢN HỒI"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:cornerRadius="0dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:cardBackgroundColor="@color/trend_card"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/trend_border"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:gravity="center"
+                    android:background="@drawable/shape_gold_circle"
+                    android:text="✦"
+                    android:textColor="@color/trend_text"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:paddingTop="10dp"
+                    android:text="TRÒ CHUYỆN CÙNG STYLIST"
+                    android:textColor="@color/trend_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingTop="8dp"
+                    android:text="Nhận tư vấn phong cách riêng biệt từ các chuyên gia thời trang hàng đầu."
+                    android:textColor="@color/trend_muted"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="14dp"
+                    android:backgroundTint="@color/trend_text"
+                    android:text="KẾT NỐI NGAY"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="0dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardBackgroundColor="@color/trend_card"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/trend_border"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:gravity="center"
+                    android:background="@drawable/shape_gold_circle"
+                    android:text="✉"
+                    android:textColor="@color/trend_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:paddingTop="10dp"
+                    android:text="CHAT TRỰC TIẾP"
+                    android:textColor="@color/trend_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingTop="8dp"
+                    android:text="Phản hồi ngay lập tức qua ứng dụng của chúng tôi."
+                    android:textColor="@color/trend_muted"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="14dp"
+                    android:backgroundTint="@color/trend_text"
+                    android:text="BẮT ĐẦU CHAT"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="0dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardBackgroundColor="@color/trend_card"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/trend_border"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:gravity="center"
+                    android:background="@drawable/shape_black_circle"
+                    android:text="✉"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:paddingTop="10dp"
+                    android:text="GỬI EMAIL"
+                    android:textColor="@color/trend_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingTop="8dp"
+                    android:text="Gửi yêu cầu chi tiết cho các chuyên viên tư vấn."
+                    android:textColor="@color/trend_muted"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="14dp"
+                    android:backgroundTint="@android:color/white"
+                    android:text="LIÊN HỆ EMAIL"
+                    android:textAllCaps="false"
+                    android:textColor="@color/trend_text"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="0dp"
+                    app:strokeColor="@color/trend_border"
+                    app:strokeWidth="1dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:cardBackgroundColor="@color/trend_card"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/trend_border"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:gravity="center"
+                    android:background="@drawable/shape_gold_circle"
+                    android:text="☎"
+                    android:textColor="@color/trend_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:paddingTop="10dp"
+                    android:text="GỌI TƯ VẤN"
+                    android:textColor="@color/trend_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingTop="8dp"
+                    android:text="Trò chuyện trực tiếp cùng đội ngũ Trendify 24/7."
+                    android:textColor="@color/trend_muted"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="14dp"
+                    android:backgroundTint="@android:color/white"
+                    android:text="GỌI NGAY"
+                    android:textAllCaps="false"
+                    android:textColor="@color/trend_text"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="0dp"
+                    app:strokeColor="@color/trend_border"
+                    app:strokeWidth="1dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:paddingTop="32dp"
+            android:text="CÂU HỎI THƯỜNG GẶP"
+            android:textColor="@color/trend_text"
+            android:textSize="25sp"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="14dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="14dp"
+                android:text="ĐƠN HÀNG &amp; GIAO NHẬN   ˅"
+                android:textColor="@color/trend_text"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/trend_border" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="14dp"
+                android:text="THANH TOÁN &amp; BẢO MẬT   ˅"
+                android:textColor="@color/trend_text"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/trend_border" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="14dp"
+                android:text="QUY ĐỊNH ĐỔI TRẢ   ˅"
+                android:textColor="@color/trend_text"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/trend_border" />
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="22dp"
+            app:cardBackgroundColor="@color/trend_card_soft"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:text="Bạn cần thêm sự hỗ trợ\nđặc biệt?"
+                    android:textAlignment="center"
+                    android:textColor="@color/trend_text"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingTop="10dp"
+                    android:text="Tham gia cộng đồng Trendify Privilege để nhận được sự tư vấn từ các chuyên gia thời trang cách hàng đầu."
+                    android:textColor="@color/trend_muted"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="14dp"
+                    android:backgroundTint="@color/trend_text"
+                    android:text="THAM GIA NGAY"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="0dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
