@@ -2,18 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_about"
+        android:id="@+id/nav_home"
         android:icon="@drawable/ic_shopping_bag"
-        android:title="Giới thiệu" />
+        android:title="Trang chủ" />
 
     <item
-        android:id="@+id/nav_support"
-        android:icon="@drawable/ic_local_shipping"
-        android:title="Hỗ trợ" />
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_search"
+        android:title="Tìm kiếm" />
 
     <item
-        android:id="@+id/nav_policy"
+        android:id="@+id/nav_category"
+        android:icon="@drawable/ic_category_nav"
+        android:title="Danh mục" />
+
+    <item
+        android:id="@+id/nav_favorite"
         android:icon="@drawable/ic_favorite"
-        android:title="Điều khoản" />
+        android:title="Yêu thích" />
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_person"
+        android:title="Tài khoản" />
 
 </menu>

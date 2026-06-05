@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="24dp">
+
+        <!-- Top Bar -->
+        <TextView
+            android:id="@+id/tvLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TRENDIFY"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_search"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toTopOf="@id/tvLogo"
+            app:layout_constraintBottom_toBottomOf="@id/tvLogo"
+            app:layout_constraintEnd_toStartOf="@id/ivNotification" />
+
+        <ImageView
+            android:id="@+id/ivNotification"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_notifications"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toTopOf="@id/tvLogo"
+            app:layout_constraintBottom_toBottomOf="@id/tvLogo"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Banner -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="24dp"
+            android:background="#222222"
+            app:layout_constraintTop_toBottomOf="@id/tvLogo">
+
+            <TextView
+                android:id="@+id/tvBannerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BỘ SƯU TẬP\nMÙA HÈ"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:letterSpacing="0.05"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tvBannerSub"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tvBannerSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giảm đến 50%"
+                android:textColor="#CBA16B"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/tvBannerTitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Categories -->
+        <TextView
+            android:id="@+id/tvCategories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danh Mục"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toBottomOf="@id/banner"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <HorizontalScrollView
+            android:id="@+id/hsvCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:scrollbars="none"
+            android:clipToPadding="false"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintTop_toBottomOf="@id/tvCategories">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_pill"
+                    android:text="Nữ"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_pill"
+                    android:text="Nam"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_pill"
+                    android:text="Trẻ\nEm"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_pill"
+                    android:text="Phụ\nKiện"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- New Arrivals -->
+        <TextView
+            android:id="@+id/tvNewArrivals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hàng Mới Về"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toBottomOf="@id/hsvCategories"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_search" 
+            android:rotation="180"
+            android:tint="@color/black"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toTopOf="@id/tvNewArrivals"
+            app:layout_constraintBottom_toBottomOf="@id/tvNewArrivals"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Mocking the RecyclerView with a HorizontalScrollView for the UI demo -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:scrollbars="none"
+            android:clipToPadding="false"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintTop_toBottomOf="@id/tvNewArrivals">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="180dp"
+                    android:background="@drawable/bg_pill"
+                    android:layout_marginEnd="16dp"/>
+
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="180dp"
+                    android:background="@drawable/bg_pill"
+                    android:layout_marginEnd="16dp"/>
+                    
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="180dp"
+                    android:background="@drawable/bg_pill" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

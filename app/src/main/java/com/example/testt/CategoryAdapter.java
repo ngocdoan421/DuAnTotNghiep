@@ -1,0 +1,52 @@
+package com.example.testt;
+
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
+
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+
+    private List<CategoryItem> items;
+
+    public CategoryAdapter(List<CategoryItem> items) {
+        this.items = items;
+    }
+
+    @NonNull
+    @Override
+    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
+        return new CategoryViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+        CategoryItem item = items.get(position);
+        holder.tvCategoryName.setText(item.getName());
+        
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), ProductListActivity.class);
+            intent.putExtra("CATEGORY_NAME", item.getName());
+            v.getContext().startActivity(intent);
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    static class CategoryViewHolder extends RecyclerView.ViewHolder {
+        TextView tvCategoryName;
+
+        CategoryViewHolder(View view) {
+            super(view);
+            tvCategoryName = view.findViewById(R.id.tvCategoryName);
+        }
+    }
+}

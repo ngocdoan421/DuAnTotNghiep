@@ -15,17 +15,23 @@ public class ScreenPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         switch (position) {
+            case 0:
+                return new HomeFragment();
             case 1:
-                return new SupportFragment();
+                return new SearchFragment();
             case 2:
-                return new PolicyFragment();
+                return new CategoryFragment();
+            case 3:
+                return new FavoriteFragment();
+            case 4:
+                return new BlankFragment("Tài khoản");
             default:
-                return new AboutFragment();
+                return new HomeFragment();
         }
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 5;
     }
 }

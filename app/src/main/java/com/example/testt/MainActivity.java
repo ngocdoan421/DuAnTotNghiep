@@ -35,19 +35,28 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            int position;
-            int itemId = item.getItemId();
-            if (itemId == R.id.nav_about) {
-                position = 0;
-            } else if (itemId == R.id.nav_support) {
-                position = 1;
-            } else {
-                position = 2;
+            int id = item.getItemId();
+            if (id == R.id.nav_home) {
+                viewPager.setCurrentItem(0);
+                return true;
+            } else if (id == R.id.nav_search) {
+                viewPager.setCurrentItem(1);
+                return true;
+            } else if (id == R.id.nav_category) {
+                viewPager.setCurrentItem(2);
+                return true;
+            } else if (id == R.id.nav_favorite) {
+                viewPager.setCurrentItem(3);
+                return true;
+            } else if (id == R.id.nav_profile) {
+                viewPager.setCurrentItem(4);
+                return true;
             }
-            if (viewPager.getCurrentItem() != position) {
-                viewPager.setCurrentItem(position, true);
-            }
-            return true;
+            return false;
+        });
+
+        findViewById(R.id.fabCart).setOnClickListener(v -> {
+            startActivity(new android.content.Intent(MainActivity.this, CartActivity.class));
         });
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -55,17 +64,21 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 if (position == 0) {
-                    bottomNavigationView.setSelectedItemId(R.id.nav_about);
+                    bottomNavigationView.setSelectedItemId(R.id.nav_home);
                 } else if (position == 1) {
-                    bottomNavigationView.setSelectedItemId(R.id.nav_support);
+                    bottomNavigationView.setSelectedItemId(R.id.nav_search);
+                } else if (position == 2) {
+                    bottomNavigationView.setSelectedItemId(R.id.nav_category);
+                } else if (position == 3) {
+                    bottomNavigationView.setSelectedItemId(R.id.nav_favorite);
                 } else {
-                    bottomNavigationView.setSelectedItemId(R.id.nav_policy);
+                    bottomNavigationView.setSelectedItemId(R.id.nav_profile);
                 }
             }
         });
 
         if (savedInstanceState == null) {
-            bottomNavigationView.setSelectedItemId(R.id.nav_about);
+            bottomNavigationView.setSelectedItemId(R.id.nav_home);
         }
     }
 }
