@@ -24,7 +24,7 @@ public class ScreenPagerAdapter extends FragmentStateAdapter {
             case 3:
                 return new FavoriteFragment();
             case 4:
-                return new BlankFragment("Tài khoản");
+                return new ProfileFragment();
             default:
                 return new HomeFragment();
         }
