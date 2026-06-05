@@ -46,7 +46,7 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintBottom_toTopOf="@id/tvUpdatedDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topBar">
@@ -234,7 +234,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <TextView
-        android:id="@+id/footer"
+        android:id="@+id/tvUpdatedDate"
         android:layout_width="0dp"
         android:layout_height="52dp"
         android:background="@color/trend_card"
