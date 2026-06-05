@@ -62,8 +62,9 @@ public class ProfileFragment extends Fragment {
     }
 
     private void handleMyOrders() {
-        // Navigate to orders screen
-        // TODO: Create OrdersActivity or navigate to existing one
+        // Navigate to order history screen
+        Intent intent = new Intent(getContext(), OrderHistoryActivity.class);
+        startActivity(intent);
     }
 
     private void handleDeliveryAddress() {

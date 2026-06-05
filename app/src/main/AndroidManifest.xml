@@ -65,6 +65,18 @@
             android:exported="false" />
 
         <activity
+            android:name=".OrderHistoryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".OrderSuccessActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrackOrderActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
     </application>
