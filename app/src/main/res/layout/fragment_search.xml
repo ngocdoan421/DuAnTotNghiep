@@ -69,7 +69,7 @@
                     android:src="@drawable/ic_close"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:tint="#AAAAAA"/>
+                    app:tint="#AAAAAA"/>
             </RelativeLayout>
 
             <!-- Mock Item 2 -->
@@ -89,7 +89,7 @@
                     android:src="@drawable/ic_close"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:tint="#AAAAAA"/>
+                    app:tint="#AAAAAA"/>
             </RelativeLayout>
 
             <!-- Mock Item 3 -->
@@ -109,7 +109,7 @@
                     android:src="@drawable/ic_close"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:tint="#AAAAAA"/>
+                    app:tint="#AAAAAA"/>
             </RelativeLayout>
         </LinearLayout>
 
