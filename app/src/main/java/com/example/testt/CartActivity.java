@@ -1,8 +1,8 @@
 package com.example.testt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -26,6 +26,12 @@ public class CartActivity extends AppCompatActivity {
             return insets;
         });
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.bottomSummary), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), v.getPaddingBottom() + systemBars.bottom);
+            return insets;
+        });
+
         ImageView ivCloseCart = findViewById(R.id.ivCloseCart);
         ivCloseCart.setOnClickListener(v -> finish());
 
@@ -38,8 +44,9 @@ public class CartActivity extends AppCompatActivity {
         rvCartItems.setAdapter(adapter);
 
         findViewById(R.id.btnCheckout).setOnClickListener(v -> {
-            Toast.makeText(this, "Đang xử lý thanh toán...", Toast.LENGTH_SHORT).show();
-            finish();
+            Intent intent = new Intent(CartActivity.this, OrderSuccessActivity.class);
+            intent.putExtra("order_id", "#TRND-8829-QX");
+            startActivity(intent);
         });
     }
 }
