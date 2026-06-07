@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Danh mục sản phẩm - Cho phép mọi người đọc
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if false; // Chỉ admin qua console hoặc script
+    }
+
+    // Sản phẩm - Cho phép mọi người đọc
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if false; // Chỉ admin qua console hoặc script
+    }
+
+    // Hồ sơ người dùng và các tài liệu con của user
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      match /cart/{cartItemId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      match /addresses/{addressId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // Nếu sau này có thêm các subcollection khác dưới user/{userId}
+      match /{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    match /orders/{orderId} {
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow read, write: if request.auth != null
+                         && request.auth.uid == resource.data.userId;
+    }
+  }
+}

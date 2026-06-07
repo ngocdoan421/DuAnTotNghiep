@@ -1,72 +1,89 @@
 package com.example.testt;
 
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class OrderHistoryActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewOrders;
     private OrderHistoryAdapter adapter;
-    private ImageView ivBack;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_history);
 
-        ivBack = findViewById(R.id.ivBack);
-        recyclerViewOrders = findViewById(R.id.recyclerViewOrders);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.topBar), (v, insets) -> {
+            Insets s = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(v.getPaddingLeft(), s.top, v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
 
-        // Setup back button
-        ivBack.setOnClickListener(v -> finish());
+        findViewById(R.id.ivBack).setOnClickListener(v -> finish());
 
-        // Setup RecyclerView
-        recyclerViewOrders.setLayoutManager(new LinearLayoutManager(this));
+        progressBar = findViewById(R.id.progressBar);
+        RecyclerView rv = findViewById(R.id.rvOrders);
         adapter = new OrderHistoryAdapter();
-        recyclerViewOrders.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(adapter);
 
-        // Load mock data
-        loadMockOrders();
+        loadOrders();
     }
 
-    private void loadMockOrders() {
-        List<OrderItem> orders = new ArrayList<>();
-        
-        orders.add(new OrderItem(
-            "#TRF-2024-001231",
-            "Đã giao",
-            "19 Tháng 5, 2026",
-            "Váy Thanh Lịch",
-            1,
-            "1.890.000đ",
-            R.drawable.ic_shopping_bag
-        ));
+    private void loadOrders() {
+        if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        orders.add(new OrderItem(
-            "#TRF-2024-001230",
-            "Đang vận chuyển",
-            "18 Tháng 5, 2026",
-            "Áo Sơ Mi Trắng",
-            2,
-            "890.000đ",
-            R.drawable.ic_shopping_bag
-        ));
-
-        orders.add(new OrderItem(
-            "#TRF-2024-001229",
-            "Đã giao",
-            "15 Tháng 5, 2026",
-            "Quần Jean Slim Fit",
-            1,
-            "1.250.000đ",
-            R.drawable.ic_shopping_bag
-        ));
-
-        adapter.setOrderList(orders);
+        FirebaseFirestore.getInstance()
+                .collection("orders")
+                .whereEqualTo("userId", uid)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    if (progressBar != null) progressBar.setVisibility(View.GONE);
+                    List<OrderItem> orders = new ArrayList<>();
+                    for (var doc : snapshot.getDocuments()) {
+                        String orderId     = doc.getString("orderId");
+                        String status      = doc.getString("status");
+                        String date        = doc.getString("date");
+                        if (date == null) {
+                            Timestamp timestamp = doc.getTimestamp("createdAt");
+                            if (timestamp != null) {
+                                date = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(timestamp.toDate());
+                            } else {
+                                date = "";
+                            }
+                        }
+                        Long total         = doc.getLong("total");
+                        List<?> items      = (List<?>) doc.get("items");
+                        String productName = items != null && !items.isEmpty()
+                                ? "Đơn hàng " + orderId : "Đơn hàng";
+                        orders.add(new OrderItem(
+                                orderId, status, date, productName, 1,
+                                total != null ? String.format("%,dđ", total).replace(",", ".") : "0đ",
+                                0));
+                    }
+                    adapter.setOrderList(orders);
+                })
+                .addOnFailureListener(e -> {
+                    if (progressBar != null) progressBar.setVisibility(View.GONE);
+                    Toast.makeText(this, "Lỗi tải đơn hàng", Toast.LENGTH_SHORT).show();
+                });
     }
 }

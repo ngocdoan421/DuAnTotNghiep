@@ -12,6 +12,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
     private View cardCredit, cardMomo, cardCod;
     private View selectedCard = null;
+    private String shippingAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,16 @@ public class PaymentMethodActivity extends AppCompatActivity {
         cardMomo.setOnClickListener(v -> selectCard(cardMomo));
         cardCod.setOnClickListener(v -> selectCard(cardCod));
 
+        shippingAddress = getIntent().getStringExtra("shipping_address");
+
         // Tiếp Tục → màn 19 Xác nhận đơn
-        findViewById(R.id.btnContinue).setOnClickListener(v ->
-                startActivity(new Intent(this, OrderConfirmActivity.class)));
+        findViewById(R.id.btnContinue).setOnClickListener(v -> {
+            Intent intent = new Intent(this, OrderConfirmActivity.class);
+            if (shippingAddress != null) {
+                intent.putExtra("shipping_address", shippingAddress);
+            }
+            startActivity(intent);
+        });
     }
 
     private void selectCard(View card) {

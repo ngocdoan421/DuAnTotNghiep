@@ -1,6 +1,7 @@
 package com.example.testt;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -80,5 +85,6 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             bottomNavigationView.setSelectedItemId(R.id.nav_home);
         }
+        // Firestore is initialized in app flows such as user profile, cart, order and address management.
     }
 }

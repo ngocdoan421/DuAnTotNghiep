@@ -32,8 +32,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
+            intent.putExtra("PRODUCT_ID", item.getId());
             intent.putExtra("PRODUCT_NAME", item.getName());
             intent.putExtra("PRODUCT_PRICE", item.getPrice());
+            intent.putExtra("PRODUCT_IMAGE", item.getImageUrl());
             v.getContext().startActivity(intent);
         });
     }
@@ -41,6 +43,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void setItems(List<ProductItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
     }
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {

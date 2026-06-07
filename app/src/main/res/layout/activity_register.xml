@@ -16,9 +16,9 @@
         android:textColor="@color/black"
         android:textSize="28sp"
         android:textStyle="bold"
+        android:layout_marginTop="60dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="60dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvRegisterSubtitle"
@@ -27,9 +27,9 @@
         android:text="@string/register_subtitle"
         android:textColor="@color/color_text_secondary"
         android:textSize="14sp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/tvCreateAccount"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilFullName"
@@ -102,18 +102,28 @@
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tilPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/create_account_btn"
         android:textAllCaps="false"
         android:textSize="16sp"
         android:textStyle="bold"
         app:backgroundTint="@color/black"
         app:cornerRadius="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tilPassword"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

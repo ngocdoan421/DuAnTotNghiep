@@ -2,17 +2,26 @@ package com.example.testt;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
+
+    private CartAdapter adapter;
+    private TextView tvTotal, tvEmpty;
+    private ProgressBar progressBar;
+    private CartManager cartManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,30 +30,58 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.topBar), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(v.getPaddingLeft(), systemBars.top, v.getPaddingRight(), v.getPaddingBottom());
+            Insets s = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(v.getPaddingLeft(), s.top, v.getPaddingRight(), v.getPaddingBottom());
             return insets;
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.bottomSummary), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), v.getPaddingBottom() + systemBars.bottom);
-            return insets;
-        });
-
-        ImageView ivCloseCart = findViewById(R.id.ivCloseCart);
-        ivCloseCart.setOnClickListener(v -> finish());
+        cartManager = new CartManager();
 
         RecyclerView rvCartItems = findViewById(R.id.rvCartItems);
-        List<ProductItem> items = new ArrayList<>();
-        items.add(new ProductItem("Váy Thanh Lịch", "1.890.000đ"));
-        items.add(new ProductItem("Váy Thanh Lịch", "1.890.000đ"));
+        tvTotal     = findViewById(R.id.tvTotal);       // thêm vào layout nếu chưa có
+        tvEmpty     = findViewById(R.id.tvEmpty);       // TextView "Giỏ hàng trống"
+        progressBar = findViewById(R.id.progressBar);
 
-        CartAdapter adapter = new CartAdapter(items);
+        adapter = new CartAdapter(cartManager);
+        rvCartItems.setLayoutManager(new LinearLayoutManager(this));
         rvCartItems.setAdapter(adapter);
 
+        findViewById(R.id.ivCloseCart).setOnClickListener(v -> finish());
+
         findViewById(R.id.btnCheckout).setOnClickListener(v -> {
-            startActivity(new Intent(CartActivity.this, ShippingAddressActivity.class));
+            if (adapter.getItemCount() == 0) {
+                Toast.makeText(this, "Giỏ hàng đang trống", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            startActivity(new Intent(this, ShippingAddressActivity.class));
         });
+
+        loadCart();
+    }
+
+    private void loadCart() {
+        if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
+        cartManager.loadCart(new CartManager.CartLoadCallback() {
+            @Override
+            public void onLoaded(List<CartItem> items) {
+                if (progressBar != null) progressBar.setVisibility(View.GONE);
+                adapter.setItems(items);
+                updateTotal(items);
+                if (tvEmpty != null)
+                    tvEmpty.setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
+            }
+            @Override
+            public void onFailure(String error) {
+                if (progressBar != null) progressBar.setVisibility(View.GONE);
+                Toast.makeText(CartActivity.this, "Lỗi tải giỏ hàng", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateTotal(List<CartItem> items) {
+        long total = 0;
+        for (CartItem item : items) total += item.getPriceAsLong() * item.getQuantity();
+        if (tvTotal != null)
+            tvTotal.setText(String.format("%,dđ", total).replace(",", "."));
     }
 }

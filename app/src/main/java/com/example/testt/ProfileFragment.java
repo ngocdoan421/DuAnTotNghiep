@@ -7,9 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileFragment extends Fragment {
 
@@ -23,11 +33,17 @@ public class ProfileFragment extends Fragment {
     private LinearLayout btnTermsOfService;
     private LinearLayout llSettings;
     private LinearLayout llLogout;
+    private TextView tvUserName;
+    private TextView tvUserEmail;
+    private UserProfile currentProfile;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        tvUserName = view.findViewById(R.id.tvUserName);
+        tvUserEmail = view.findViewById(R.id.tvUserEmail);
 
         // Initialize views
         llEditProfile = view.findViewById(R.id.llEditProfile);
@@ -53,22 +69,85 @@ public class ProfileFragment extends Fragment {
         llSettings.setOnClickListener(v -> handleSettings());
         llLogout.setOnClickListener(v -> showLogoutDialog());
 
+        loadUserProfile();
         return view;
     }
 
+    private void loadUserProfile() {
+        FirestoreHelper.loadUserProfile(new FirestoreHelper.ProfileCallback() {
+            @Override
+            public void onLoaded(UserProfile profile) {
+                currentProfile = profile;
+                tvUserName.setText(profile.getFullName());
+                tvUserEmail.setText(profile.getEmail());
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(getContext(), "Không thể tải hồ sơ: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void handleEditProfile() {
-        // Navigate to edit profile screen
-        // TODO: Create EditProfileActivity or navigate to existing one
+        if (currentProfile == null) {
+            Toast.makeText(getContext(), "Đang tải hồ sơ...", Toast.LENGTH_SHORT).show();
+            loadUserProfile();
+            return;
+        }
+        showEditProfileDialog();
+    }
+
+    private void showEditProfileDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_profile, null);
+        TextInputEditText etFullName = dialogView.findViewById(R.id.etFullName);
+        TextInputEditText etPhone = dialogView.findViewById(R.id.etPhone);
+
+        etFullName.setText(currentProfile.getFullName());
+        etPhone.setText(currentProfile.getPhone());
+
+        builder.setTitle("Cập nhật hồ sơ")
+                .setView(dialogView)
+                .setPositiveButton("Lưu", (dialog, which) -> {
+                    String fullName = etFullName.getText() != null ? etFullName.getText().toString().trim() : "";
+                    String phone = etPhone.getText() != null ? etPhone.getText().toString().trim() : "";
+                    if (fullName.isEmpty()) {
+                        Toast.makeText(getContext(), "Họ tên không được để trống", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put("fullName", fullName);
+                    updates.put("phone", phone);
+                    FirestoreHelper.updateUserProfile(updates, new FirestoreHelper.SimpleCallback() {
+                        @Override
+                        public void onSuccess() {
+                            currentProfile.setFullName(fullName);
+                            currentProfile.setPhone(phone);
+                            tvUserName.setText(fullName);
+                            Toast.makeText(getContext(), "Cập nhật hồ sơ thành công", Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            if (user != null) {
+                                user.updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(fullName).build());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(String error) {
+                            Toast.makeText(getContext(), "Cập nhật hồ sơ thất bại: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
     }
 
     private void handleMyOrders() {
-        // Navigate to order history screen
         Intent intent = new Intent(getContext(), OrderHistoryActivity.class);
         startActivity(intent);
     }
 
     private void handleDeliveryAddress() {
-        // Navigate to address management screen
         Intent intent = new Intent(getContext(), AddressManagementActivity.class);
         startActivity(intent);
     }
@@ -84,19 +163,16 @@ public class ProfileFragment extends Fragment {
     }
 
     private void handleHelpCenter() {
-        // Navigate to Help Center screen
         Intent intent = new Intent(getContext(), HelpCenterActivity.class);
         startActivity(intent);
     }
 
     private void handlePrivacyPolicy() {
-        // Navigate to Privacy Policy screen
         Intent intent = new Intent(getContext(), PrivacyPolicyActivity.class);
         startActivity(intent);
     }
 
     private void handleTermsOfService() {
-        // Navigate to Terms of Service screen
         Intent intent = new Intent(getContext(), TermsActivity.class);
         startActivity(intent);
     }
@@ -110,24 +186,15 @@ public class ProfileFragment extends Fragment {
         new AlertDialog.Builder(getContext())
                 .setTitle("Đăng Xuất")
                 .setMessage("Bạn có chắc chắn muốn đăng xuất?")
-                .setPositiveButton("Có", (dialog, which) -> {
-                    // TODO: Clear token/session and navigate to login
-                    performLogout();
-                })
+                .setPositiveButton("Có", (dialog, which) -> performLogout())
                 .setNegativeButton("Không", null)
                 .show();
     }
 
     private void performLogout() {
-        // Clear user session/token here
-        // TODO: Implement actual logout logic (clear SharedPreferences, etc.)
-
-        // Navigate to login screen
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        if (getActivity() != null) {
-            getActivity().finish();
-        }
     }
 }

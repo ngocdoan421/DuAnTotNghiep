@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <!-- Top Navigation -->
+    <!-- Top Bar -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-            
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -45,7 +45,32 @@
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Cart Items -->
+    <!-- ProgressBar loading -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toTopOf="@id/bottomSummary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Giỏ trống -->
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Giỏ hàng đang trống"
+        android:textColor="#888888"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toTopOf="@id/bottomSummary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Danh sách sản phẩm -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCartItems"
         android:layout_width="match_parent"
@@ -56,7 +81,7 @@
         app:layout_constraintTop_toBottomOf="@id/topBar"
         app:layout_constraintBottom_toTopOf="@id/bottomSummary" />
 
-    <!-- Bottom Summary -->
+    <!-- Bottom: Tổng tiền + nút thanh toán -->
     <LinearLayout
         android:id="@+id/bottomSummary"
         android:layout_width="match_parent"
@@ -73,7 +98,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="12dp">
-            
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -86,7 +111,7 @@
                 android:id="@+id/tvSubtotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3.780.000đ"
+                android:text="0đ"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -98,7 +123,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="16dp">
-            
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -128,7 +153,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="24dp">
-            
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -142,7 +167,7 @@
                 android:id="@+id/tvTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3.810.000đ"
+                android:text="0đ"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />

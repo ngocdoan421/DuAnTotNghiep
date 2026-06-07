@@ -117,6 +117,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tvHomeName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
@@ -126,6 +127,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvHomePhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -134,6 +136,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvHomeDetail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -217,6 +220,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tvOfficeName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
@@ -226,6 +230,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvOfficePhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -234,6 +239,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvOfficeDetail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -332,6 +338,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tvFamilyName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
@@ -341,6 +348,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvFamilyPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -349,6 +357,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvFamilyDetail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"

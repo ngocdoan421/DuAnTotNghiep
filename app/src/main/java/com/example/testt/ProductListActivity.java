@@ -3,6 +3,7 @@ package com.example.testt;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -14,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductListActivity extends AppCompatActivity {
+
+    private String categoryId;
+    private ProductAdapter productAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +31,10 @@ public class ProductListActivity extends AppCompatActivity {
             return insets;
         });
 
+        categoryId = getIntent().getStringExtra("CATEGORY_ID");
         String categoryName = getIntent().getStringExtra("CATEGORY_NAME");
         TextView tvTitle = findViewById(R.id.tvTitle);
-        if (categoryName != null) {
+        if (categoryName != null && !categoryName.isEmpty()) {
             tvTitle.setText(categoryName);
         }
 
@@ -42,15 +47,41 @@ public class ProductListActivity extends AppCompatActivity {
         RecyclerView rvProducts = findViewById(R.id.rvProducts);
         rvProducts.setLayoutManager(new GridLayoutManager(this, 2));
 
-        List<ProductItem> items = new ArrayList<>();
-        items.add(new ProductItem("Váy Thanh Lịch", "1.890.000đ"));
-        items.add(new ProductItem("Váy Thanh Lịch", "1.890.000đ"));
-        items.add(new ProductItem("Áo Sơ Mi Lụa", "1.250.000đ"));
-        items.add(new ProductItem("Quần Âu Công Sở", "1.450.000đ"));
-        items.add(new ProductItem("Chân Váy Bút Chì", "950.000đ"));
-        items.add(new ProductItem("Đầm Dạ Hội Cao Cấp", "3.200.000đ"));
+        productAdapter = new ProductAdapter(new ArrayList<>());
+        rvProducts.setAdapter(productAdapter);
 
-        ProductAdapter adapter = new ProductAdapter(items);
-        rvProducts.setAdapter(adapter);
+        if (categoryId != null && !categoryId.isEmpty()) {
+            loadProducts(categoryId);
+        } else {
+            loadAllProducts();
+        }
+    }
+
+    private void loadProducts(String categoryId) {
+        FirestoreHelper.loadProducts(categoryId, new FirestoreHelper.ProductsCallback() {
+            @Override
+            public void onLoaded(List<ProductItem> products) {
+                productAdapter.setItems(products);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(ProductListActivity.this, "Không thể tải sản phẩm: " + error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void loadAllProducts() {
+        FirestoreHelper.loadAllProducts(new FirestoreHelper.ProductsCallback() {
+            @Override
+            public void onLoaded(List<ProductItem> products) {
+                productAdapter.setItems(products);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(ProductListActivity.this, "Không thể tải sản phẩm: " + error, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

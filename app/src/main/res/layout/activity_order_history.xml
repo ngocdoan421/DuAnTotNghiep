@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <!-- Top Bar with Back Button -->
+    <!-- Top Bar -->
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="0dp"
@@ -49,9 +49,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- RecyclerView for Order List -->
+    <!-- ProgressBar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Danh sách đơn hàng -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewOrders"
+        android:id="@+id/rvOrders"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="16dp"

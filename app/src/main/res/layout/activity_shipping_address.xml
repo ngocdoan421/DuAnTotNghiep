@@ -57,129 +57,37 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Card Nhà riêng - mặc định (border đen = đang chọn) -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardHome"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardBackgroundColor="@color/trend_card"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/trend_text"
-                app:strokeWidth="2dp">
+                android:text="Chọn địa chỉ giao hàng"
+                android:textColor="@color/trend_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <!-- Header: icon + label + badge -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_location"
-                            app:tint="@color/trend_text" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:text="Nhà Riêng"
-                            android:textColor="@color/trend_text"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="26dp"
-                            android:background="@color/trend_text"
-                            android:gravity="center"
-                            android:paddingHorizontal="10dp"
-                            android:text="Mặc định"
-                            android:textColor="@android:color/white"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="123 Đường Nguyễn Huệ\nQuận 1, TP. Hồ Chí Minh\nViệt Nam"
-                        android:textColor="@color/trend_muted"
-                        android:textSize="14sp"
-                        android:lineSpacingExtra="3dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Card Văn Phòng -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardOffice"
+            <TextView
+                android:id="@+id/tvEmptyAddresses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardBackgroundColor="@color/trend_card"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/trend_border"
-                app:strokeWidth="1dp">
+                android:layout_marginTop="12dp"
+                android:text="Chưa có địa chỉ nào. Nhấn Thêm để tạo." 
+                android:textColor="@color/trend_muted"
+                android:textSize="14sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+            <LinearLayout
+                android:id="@+id/addressContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_location"
-                            app:tint="@color/trend_muted" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:text="Văn Phòng"
-                            android:textColor="@color/trend_text"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="456 Đường Lê Lợi\nQuận 3, TP. Hồ Chí Minh"
-                        android:textColor="@color/trend_muted"
-                        android:textSize="14sp"
-                        android:lineSpacingExtra="3dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Nút Thêm Địa Chỉ Mới -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddAddress"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
+                android:layout_marginTop="12dp"
                 android:backgroundTint="@color/trend_card"
-                android:text="Thêm Địa Chỉ Mới"
+                android:text="Thêm địa chỉ mới"
                 android:textColor="@color/trend_text"
                 android:textSize="14sp"
                 android:textStyle="bold"

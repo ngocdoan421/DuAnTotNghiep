@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,16 +21,20 @@ public class CategoryFragment extends Fragment {
         
         RecyclerView rvCategories = view.findViewById(R.id.rvCategories);
         
-        List<CategoryItem> items = new ArrayList<>();
-        items.add(new CategoryItem("Thời Trang Nữ"));
-        items.add(new CategoryItem("Thời Trang Nam"));
-        items.add(new CategoryItem("Trẻ Em"));
-        items.add(new CategoryItem("Phụ Kiện"));
-        items.add(new CategoryItem("Đồ Bơi"));
-        items.add(new CategoryItem("Đồ Lót"));
-        
-        CategoryAdapter adapter = new CategoryAdapter(items);
+        CategoryAdapter adapter = new CategoryAdapter(new ArrayList<>());
         rvCategories.setAdapter(adapter);
+
+        FirestoreHelper.loadCategories(new FirestoreHelper.CategoriesCallback() {
+            @Override
+            public void onLoaded(List<CategoryItem> categories) {
+                adapter.setItems(categories);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(requireContext(), "Không thể tải danh mục: " + error, Toast.LENGTH_LONG).show();
+            }
+        });
         
         return view;
     }

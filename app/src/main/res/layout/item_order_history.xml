@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Row 1: Order ID and Status Badge -->
+        <!-- Hàng 1: Mã đơn + Trạng thái -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,8 +26,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="#TRF-2024-001231"
-                android:textSize="16sp"
+                android:text="#ORD-A1B2C3D4"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/black" />
 
@@ -35,45 +35,50 @@
                 android:id="@+id/tvOrderStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đã giao"
+                android:text="Đang xử lý"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:textColor="#4CAF50"
-                android:background="@drawable/bg_chip_selected"
+                android:textColor="#FF9800"
+                android:background="@drawable/bg_chip_unselected"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp" />
         </LinearLayout>
 
-        <!-- Row 2: Date -->
+        <!-- Hàng 2: Ngày đặt -->
         <TextView
             android:id="@+id/tvOrderDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="19 Tháng 5, 2026"
-            android:textSize="14sp"
+            android:text="07/06/2026 14:30"
+            android:textSize="13sp"
             android:textColor="@color/color_text_secondary"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="6dp" />
 
-        <!-- Product Info Row -->
+        <!-- Đường kẻ -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Hàng 3: Ảnh + Thông tin sản phẩm -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="12dp"
             android:gravity="center_vertical">
 
-            <!-- Product Image -->
             <ImageView
                 android:id="@+id/ivProductImage"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@color/color_circle_bg"
+                android:background="#EEEEEE"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_shopping_bag" />
 
-            <!-- Product Details -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -85,8 +90,9 @@
                     android:id="@+id/tvProductName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Váy Thanh Lịch"
-                    android:textSize="16sp"
+                    android:text="Tên sản phẩm"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -94,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="SL: 1"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textColor="@color/color_text_secondary"
                     android:layout_marginTop="4dp" />
 
@@ -102,15 +108,15 @@
                     android:id="@+id/tvProductPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1.890.000đ"
-                    android:textSize="16sp"
+                    android:text="0đ"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:layout_marginTop="4dp" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- View Details Button -->
+        <!-- Nút xem chi tiết -->
         <Button
             android:id="@+id/btnViewDetails"
             android:layout_width="match_parent"
