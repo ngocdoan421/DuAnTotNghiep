@@ -44,9 +44,7 @@ public class CartActivity extends AppCompatActivity {
         rvCartItems.setAdapter(adapter);
 
         findViewById(R.id.btnCheckout).setOnClickListener(v -> {
-            Intent intent = new Intent(CartActivity.this, OrderSuccessActivity.class);
-            intent.putExtra("order_id", "#TRND-8829-QX");
-            startActivity(intent);
+            startActivity(new Intent(CartActivity.this, ShippingAddressActivity.class));
         });
     }
 }
