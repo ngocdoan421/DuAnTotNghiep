@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -13,10 +14,16 @@ import java.util.List;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
 
-    private List<ProductItem> items;
+    public interface OnFavoriteRemoveListener {
+        void onFavoriteRemove(ProductItem item);
+    }
 
-    public FavoriteAdapter(List<ProductItem> items) {
+    private List<ProductItem> items;
+    private OnFavoriteRemoveListener removeListener;
+
+    public FavoriteAdapter(List<ProductItem> items, OnFavoriteRemoveListener removeListener) {
         this.items = items;
+        this.removeListener = removeListener;
     }
 
     @NonNull
@@ -41,6 +48,12 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             v.getContext().startActivity(intent);
         });
 
+        holder.ivFavorite.setOnClickListener(v -> {
+            if (removeListener != null) {
+                removeListener.onFavoriteRemove(item);
+            }
+        });
+
         holder.btnAddCart.setOnClickListener(v -> {
             Toast.makeText(v.getContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
         });
@@ -51,16 +64,23 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         return items.size();
     }
 
+    public void setItems(List<ProductItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
+
     static class FavoriteViewHolder extends RecyclerView.ViewHolder {
         TextView tvProductName;
         TextView tvProductPrice;
         Button btnAddCart;
+        ImageView ivFavorite;
 
         FavoriteViewHolder(View view) {
             super(view);
             tvProductName = view.findViewById(R.id.tvProductName);
             tvProductPrice = view.findViewById(R.id.tvProductPrice);
             btnAddCart = view.findViewById(R.id.btnAddCart);
+            ivFavorite = view.findViewById(R.id.ivFavorite);
         }
     }
 }

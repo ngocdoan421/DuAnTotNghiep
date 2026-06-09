@@ -6,6 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
+
+import com.bumptech.glide.Glide;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -43,6 +45,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         TextView tvName  = findViewById(R.id.tvProductName);
         TextView tvPrice = findViewById(R.id.tvProductPrice);
+        ImageView ivProductImage = findViewById(R.id.ivProductImage);
+        if (!finalImageUrl.isEmpty()) {
+            Glide.with(this)
+                    .load(finalImageUrl)
+                    .centerCrop()
+                    .into(ivProductImage);
+        }
         if (!finalProductName.isEmpty()) tvName.setText(finalProductName);
         if (!finalProductPrice.isEmpty()) tvPrice.setText(finalProductPrice);
 

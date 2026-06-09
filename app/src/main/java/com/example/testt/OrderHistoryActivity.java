@@ -53,12 +53,20 @@ public class OrderHistoryActivity extends AppCompatActivity {
         FirebaseFirestore.getInstance()
                 .collection("orders")
                 .whereEqualTo("userId", uid)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(snapshot -> {
                     if (progressBar != null) progressBar.setVisibility(View.GONE);
+                    List<com.google.firebase.firestore.DocumentSnapshot> documents = snapshot.getDocuments();
+                    documents.sort((a, b) -> {
+                        Timestamp ta = a.getTimestamp("createdAt");
+                        Timestamp tb = b.getTimestamp("createdAt");
+                        if (ta == null && tb == null) return 0;
+                        if (ta == null) return 1;
+                        if (tb == null) return -1;
+                        return tb.compareTo(ta);
+                    });
                     List<OrderItem> orders = new ArrayList<>();
-                    for (var doc : snapshot.getDocuments()) {
+                    for (var doc : documents) {
                         String orderId     = doc.getString("orderId");
                         String status      = doc.getString("status");
                         String date        = doc.getString("date");

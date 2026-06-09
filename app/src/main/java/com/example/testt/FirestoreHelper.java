@@ -7,8 +7,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,9 +23,15 @@ public class FirestoreHelper {
     private static final String COLLECTION_CATEGORIES = "categories";
     private static final String COLLECTION_PRODUCTS = "products";
     private static final String SUBCOLLECTION_ADDRESSES = "addresses";
+    private static final String SUBCOLLECTION_FAVORITES = "favorites";
 
     public interface SimpleCallback {
         void onSuccess();
+        void onFailure(String error);
+    }
+
+    public interface FavoriteIdsCallback {
+        void onLoaded(List<String> favoriteIds);
         void onFailure(String error);
     }
 
@@ -34,6 +42,11 @@ public class FirestoreHelper {
 
     public interface AddressesCallback {
         void onLoaded(List<UserAddress> addresses);
+        void onFailure(String error);
+    }
+
+    public interface VoucherCallback {
+        void onLoaded(Voucher voucher);
         void onFailure(String error);
     }
 
@@ -66,11 +79,123 @@ public class FirestoreHelper {
         return getUsersCollection().document(getCurrentUserId()).collection(SUBCOLLECTION_ADDRESSES);
     }
 
+    private static CollectionReference getFavoritesCollection() {
+        return getUsersCollection().document(getCurrentUserId()).collection(SUBCOLLECTION_FAVORITES);
+    }
+
     public static void saveUserProfile(@NonNull UserProfile profile, @NonNull SimpleCallback callback) {
         getUsersCollection().document(getCurrentUserId())
                 .set(profile)
                 .addOnSuccessListener(v -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
+    }
+
+    public static void loadFavoriteIds(@NonNull FavoriteIdsCallback callback) {
+        getFavoritesCollection()
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    List<String> favoriteIds = new ArrayList<>();
+                    for (DocumentSnapshot document : snapshot.getDocuments()) {
+                        favoriteIds.add(document.getId());
+                    }
+                    callback.onLoaded(favoriteIds);
+                })
+                .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
+    }
+
+    public static void loadFavoriteProducts(@NonNull ProductsCallback callback) {
+        loadFavoriteIds(new FavoriteIdsCallback() {
+            @Override
+            public void onLoaded(List<String> favoriteIds) {
+                if (favoriteIds.isEmpty()) {
+                    callback.onLoaded(new ArrayList<>());
+                    return;
+                }
+                loadProductsByIds(favoriteIds, callback);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                callback.onFailure(error);
+            }
+        });
+    }
+
+    private static void loadProductsByIds(@NonNull List<String> ids, @NonNull ProductsCallback callback) {
+        if (ids.isEmpty()) {
+            callback.onLoaded(new ArrayList<>());
+            return;
+        }
+        if (ids.size() <= 10) {
+            getDb().collection(COLLECTION_PRODUCTS)
+                    .whereIn(FieldPath.documentId(), ids)
+                    .get()
+                    .addOnSuccessListener(snapshot -> callback.onLoaded(parseProducts(snapshot)))
+                    .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
+            return;
+        }
+        List<ProductItem> products = new ArrayList<>();
+        loadProductsChunks(ids, 0, products, callback);
+    }
+
+    private static void loadProductsChunks(@NonNull List<String> ids, int start, @NonNull List<ProductItem> accumulator, @NonNull ProductsCallback callback) {
+        int end = Math.min(start + 10, ids.size());
+        List<String> chunk = ids.subList(start, end);
+        getDb().collection(COLLECTION_PRODUCTS)
+                .whereIn(FieldPath.documentId(), chunk)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    accumulator.addAll(parseProducts(snapshot));
+                    if (end >= ids.size()) {
+                        callback.onLoaded(accumulator);
+                    } else {
+                        loadProductsChunks(ids, end, accumulator, callback);
+                    }
+                })
+                .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
+    }
+
+    private static List<ProductItem> parseProducts(QuerySnapshot snapshot) {
+        List<ProductItem> products = new ArrayList<>();
+        for (DocumentSnapshot document : snapshot.getDocuments()) {
+            String id = document.getId();
+            String name = document.getString("name");
+            String catId = document.getString("categoryId");
+            String imageUrl = document.getString("imageUrl");
+            Object priceObj = document.get("price");
+            String price = priceObj != null ? String.valueOf(priceObj) : "";
+            ProductItem product = new ProductItem(id, catId, name, price, imageUrl);
+            products.add(product);
+        }
+        return products;
+    }
+
+    public static void addFavoriteProduct(@NonNull ProductItem item, @NonNull SimpleCallback callback) {
+        Map<String, Object> favoriteData = new HashMap<>();
+        favoriteData.put("productId", item.getId());
+        favoriteData.put("createdAt", Timestamp.now());
+        getFavoritesCollection()
+                .document(item.getId())
+                .set(favoriteData)
+                .addOnSuccessListener(v -> callback.onSuccess())
+                .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
+    }
+
+    public static void removeFavoriteProduct(@NonNull String productId, @NonNull SimpleCallback callback) {
+        getFavoritesCollection()
+                .document(productId)
+                .delete()
+                .addOnSuccessListener(v -> callback.onSuccess())
+                .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
+    }
+
+    public static Map<String, Object> buildUserProfileMap(@NonNull String fullName, @NonNull String email, @NonNull String phone) {
+        Map<String, Object> profile = new HashMap<>();
+        profile.put("fullName", fullName);
+        profile.put("email", email);
+        profile.put("phone", phone);
+        profile.put("createdAt", Timestamp.now());
+        return profile;
     }
 
     public static void loadUserProfile(@NonNull ProfileCallback callback) {
@@ -93,7 +218,7 @@ public class FirestoreHelper {
 
     public static void updateUserProfile(@NonNull Map<String, Object> updates, @NonNull SimpleCallback callback) {
         getUsersCollection().document(getCurrentUserId())
-                .update(updates)
+                .set(updates, SetOptions.merge())
                 .addOnSuccessListener(v -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
     }
@@ -111,6 +236,27 @@ public class FirestoreHelper {
                         }
                     }
                     callback.onLoaded(addresses);
+                })
+                .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
+    }
+
+    public static void validateVoucher(@NonNull String code, @NonNull VoucherCallback callback) {
+        getDb().collection("vouchers")
+                .whereEqualTo("code", code)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    if (snapshot.isEmpty()) {
+                        callback.onFailure("Voucher không tồn tại");
+                        return;
+                    }
+                    DocumentSnapshot document = snapshot.getDocuments().get(0);
+                    Voucher voucher = Voucher.fromDocument(document);
+                    if (voucher.isExpired()) {
+                        callback.onFailure("Voucher đã hết hạn");
+                        return;
+                    }
+                    callback.onLoaded(voucher);
                 })
                 .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
     }
@@ -197,12 +343,4 @@ public class FirestoreHelper {
                 .addOnFailureListener(e -> callback.onFailure(e.getMessage()));
     }
 
-    public static Map<String, Object> buildUserProfileMap(@NonNull String fullName, @NonNull String email, @NonNull String phone) {
-        Map<String, Object> profile = new HashMap<>();
-        profile.put("fullName", fullName);
-        profile.put("email", email);
-        profile.put("phone", phone);
-        profile.put("createdAt", Timestamp.now());
-        return profile;
-    }
 }

@@ -6,10 +6,11 @@
     android:padding="16dp"
     android:background="?android:attr/selectableItemBackground">
 
-    <View
+    <ImageView
         android:id="@+id/ivIcon"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:scaleType="centerCrop"
         android:background="@drawable/bg_pill"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

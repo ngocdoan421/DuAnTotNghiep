@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
@@ -28,7 +32,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         CategoryItem item = items.get(position);
         holder.tvCategoryName.setText(item.getName());
-        
+        if (!item.getImageUrl().isEmpty()) {
+            Glide.with(holder.ivIcon.getContext())
+                    .load(item.getImageUrl())
+                    .centerCrop()
+                    .into(holder.ivIcon);
+        }
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), ProductListActivity.class);
             intent.putExtra("CATEGORY_ID", item.getId());
@@ -49,10 +58,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     static class CategoryViewHolder extends RecyclerView.ViewHolder {
         TextView tvCategoryName;
+        ImageView ivIcon;
 
         CategoryViewHolder(View view) {
             super(view);
             tvCategoryName = view.findViewById(R.id.tvCategoryName);
+            ivIcon = view.findViewById(R.id.ivIcon);
         }
     }
 }

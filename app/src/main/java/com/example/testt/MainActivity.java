@@ -87,4 +87,10 @@ public class MainActivity extends AppCompatActivity {
         }
         // Firestore is initialized in app flows such as user profile, cart, order and address management.
     }
+
+    public void setCurrentPage(int page) {
+        if (viewPager != null) {
+            viewPager.setCurrentItem(page, true);
+        }
+    }
 }

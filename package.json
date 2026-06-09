@@ -1,0 +1,19 @@
+{
+  "name": "firebase-image-uploader",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "upload-image": "node upload_image.js",
+    "upload-categories": "node upload_categories.js",
+    "upload-category-images": "node upload_category_images.js",
+    "check-firebase": "node check_firebase.js",
+    "create-admin": "node create_admin_user.js",
+    "admin": "node admin/server.js",
+    "dev": "node admin/server.js",
+    "backend": "./gradlew.bat -p payos-backend run"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.7.0",
+    "uuid": "^14.0.0"
+  }
+}

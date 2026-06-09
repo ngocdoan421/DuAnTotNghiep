@@ -1,5 +1,7 @@
 package com.example.testt;
 
+import com.google.firebase.firestore.Exclude;
+
 public class CartItem {
     private String productId;
     private String name;
@@ -27,8 +29,10 @@ public class CartItem {
     public void setPrice(String price) { this.price = price; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
+    public void setPriceAsLong(long priceAsLong) { /* Ignore - required to prevent Firestore mapping warnings */ }
 
     // Tính giá số để cộng tổng (bỏ "đ" và dấu chấm)
+    @Exclude
     public long getPriceAsLong() {
         try {
             return Long.parseLong(price.replaceAll("[^0-9]", ""));

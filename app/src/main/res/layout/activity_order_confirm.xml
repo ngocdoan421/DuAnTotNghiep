@@ -145,6 +145,84 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Voucher -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/trend_card"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/trend_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MÃ VOUCHER"
+                        android:textColor="@color/trend_muted"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.08"
+                        android:layout_marginBottom="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            app:boxBackgroundColor="@color/trend_card"
+                            app:boxCornerRadiusTopStart="8dp"
+                            app:boxCornerRadiusTopEnd="8dp"
+                            app:boxCornerRadiusBottomStart="8dp"
+                            app:boxCornerRadiusBottomEnd="8dp"
+                            app:boxStrokeColor="@color/trend_border"
+                            app:boxStrokeWidth="1dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etVoucherCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:hint="Nhập mã voucher"
+                                android:padding="12dp"
+                                android:textColor="@color/trend_text"
+                                android:textSize="14sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnApplyVoucher"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:text="Áp dụng"
+                            android:textAllCaps="false"
+                            app:cornerRadius="8dp"
+                            app:strokeColor="@color/trend_border"
+                            app:strokeWidth="1dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvVoucherMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Tóm tắt thanh toán -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -209,6 +287,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="30.000đ"
+                            android:textColor="@color/trend_text"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Giảm giá"
+                            android:textColor="@color/trend_muted"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tvDiscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-0đ"
                             android:textColor="@color/trend_text"
                             android:textSize="14sp" />
                     </LinearLayout>
