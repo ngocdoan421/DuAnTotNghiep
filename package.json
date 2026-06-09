@@ -8,8 +8,8 @@
     "upload-category-images": "node upload_category_images.js",
     "check-firebase": "node check_firebase.js",
     "create-admin": "node create_admin_user.js",
-    "admin": "node admin/server.js",
-    "dev": "node admin/server.js",
+    "admin": "npx -y serve admin-web",
+    "dev": "npx -y serve admin-web",
     "backend": "./gradlew.bat -p payos-backend run"
   },
   "dependencies": {
