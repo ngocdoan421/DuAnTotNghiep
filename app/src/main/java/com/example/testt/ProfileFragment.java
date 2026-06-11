@@ -14,9 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,8 +69,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadUserProfile() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser == null) {
+        if (!SessionManager.getInstance().isLoggedIn()) {
             showLoggedOutState();
             return;
         }
@@ -88,9 +84,9 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(String error) {
-                String displayName = firebaseUser.getDisplayName() != null ? firebaseUser.getDisplayName() : "Khách hàng";
-                String email = firebaseUser.getEmail() != null ? firebaseUser.getEmail() : "";
-                currentProfile = new UserProfile(firebaseUser.getUid(), displayName, email, "", null);
+                String displayName = "Khách hàng";
+                String email = "";
+                currentProfile = new UserProfile(SessionManager.getInstance().getUserId(), displayName, email, "", null);
                 tvUserName.setText(displayName);
                 tvUserEmail.setText(email);
                 Toast.makeText(getContext(), "Không thể tải hồ sơ: " + error, Toast.LENGTH_SHORT).show();
@@ -99,8 +95,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void handleEditProfile() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser == null) {
+        if (!SessionManager.getInstance().isLoggedIn()) {
             startActivity(new Intent(requireContext(), LoginActivity.class));
             return;
         }
@@ -140,10 +135,6 @@ public class ProfileFragment extends Fragment {
                             currentProfile.setPhone(phone);
                             tvUserName.setText(fullName);
                             Toast.makeText(getContext(), "Cập nhật hồ sơ thành công", Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            if (user != null) {
-                                user.updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(fullName).build());
-                            }
                         }
 
                         @Override
@@ -198,7 +189,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void performLogout() {
-        FirebaseAuth.getInstance().signOut();
+        SessionManager.getInstance().logout();
         Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

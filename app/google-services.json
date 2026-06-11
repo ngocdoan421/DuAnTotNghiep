@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "488916869224",
-    "firebase_url": "https://ketnoifirebase-3a966-default-rtdb.firebaseio.com",
-    "project_id": "ketnoifirebase-3a966",
-    "storage_bucket": "ketnoifirebase-3a966.firebasestorage.app"
+    "project_number": "151564110238",
+    "firebase_url": "https://duantotnghiep-72674-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "duantotnghiep-72674",
+    "storage_bucket": "duantotnghiep-72674.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:488916869224:android:d64d052e85fb136abe5bdd",
+        "mobilesdk_app_id": "1:151564110238:android:8b9426a73fc22e966aae8f",
         "android_client_info": {
           "package_name": "com.example.testt"
         }
       },
       "oauth_client": [
         {
-          "client_id": "488916869224-lo0k7lmiaqv564ncsukqi8n7g6pn53j9.apps.googleusercontent.com",
+          "client_id": "151564110238-42dpirsn5dgngt79kgq2a9n8uftn2140.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAHcBLpG_b-zdkT7wacZfD4Dfde62m8IXU"
+          "current_key": "AIzaSyAmjBsrj3fe_yPSzf7UdfwG3wvk60wjT_k"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "488916869224-lo0k7lmiaqv564ncsukqi8n7g6pn53j9.apps.googleusercontent.com",
+              "client_id": "151564110238-42dpirsn5dgngt79kgq2a9n8uftn2140.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

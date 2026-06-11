@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,7 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void loadFavorites() {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (!SessionManager.getInstance().isLoggedIn()) {
             tvNoFavorites.setText("Đăng nhập để xem sản phẩm yêu thích.");
             tvNoFavorites.setVisibility(View.VISIBLE);
             adapter.setItems(new ArrayList<>());
@@ -85,3 +84,4 @@ public class FavoriteFragment extends Fragment {
         });
     }
 }
+

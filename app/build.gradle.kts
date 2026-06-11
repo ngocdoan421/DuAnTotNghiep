@@ -5,11 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.testt"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.testt"
@@ -18,10 +14,9 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildFeatures {
         buildConfig = true
     }
@@ -53,5 +48,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation("com.google.firebase:firebase-database")
+    implementation("org.mindrot:jbcrypt:0.4")
     implementation("com.github.bumptech.glide:glide:4.15.1")
 }

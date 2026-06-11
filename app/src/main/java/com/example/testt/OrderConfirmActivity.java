@@ -16,7 +16,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -234,7 +233,7 @@ public class OrderConfirmActivity extends AppCompatActivity {
     }
 
     private void saveOrderToFirestore(List<CartItem> items) {
-        String uid     = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid     = SessionManager.getInstance().getUserId();
         String orderId = "ORD-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         String date    = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
 
@@ -304,7 +303,7 @@ public class OrderConfirmActivity extends AppCompatActivity {
     }
 
     private void saveOrderWithPaymentLink(List<CartItem> items, String checkoutUrl, String paymentLinkId, long orderCode, String qrCode, String accountNumber, String accountName, String description, String bin) {
-        String uid     = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid     = SessionManager.getInstance().getUserId();
         String orderId = "ORD-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         String date    = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
 

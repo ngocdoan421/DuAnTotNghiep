@@ -13,7 +13,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -62,7 +61,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Lỗi sản phẩm", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            if (!SessionManager.getInstance().isLoggedIn()) {
                 Toast.makeText(this, "Vui lòng đăng nhập để thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, LoginActivity.class));
                 return;

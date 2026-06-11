@@ -3,7 +3,6 @@ package com.example.testt;
 import androidx.annotation.NonNull;
 
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -61,10 +60,10 @@ public class FirestoreHelper {
     }
 
     private static String getCurrentUserId() {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (!SessionManager.getInstance().isLoggedIn()) {
             throw new IllegalStateException("Người dùng chưa đăng nhập");
         }
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        return SessionManager.getInstance().getUserId();
     }
 
     private static FirebaseFirestore getDb() {
@@ -344,3 +343,4 @@ public class FirestoreHelper {
     }
 
 }
+

@@ -1,6 +1,5 @@
 package com.example.testt;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
@@ -26,8 +25,8 @@ public class CartManager {
 
     public CartManager() {
         db = FirebaseFirestore.getInstance();
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (SessionManager.getInstance().isLoggedIn()) {
+            userId = SessionManager.getInstance().getUserId();
         } else {
             userId = null;
         }

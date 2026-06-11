@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -18,7 +17,6 @@ public class LoginActivity extends AppCompatActivity {
     private MaterialButton btnLogin;
     private TextView tvForgotPassword, tvRegister;
     private ProgressBar progressBar;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +25,8 @@ public class LoginActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) getSupportActionBar().hide();
 
-        mAuth = FirebaseAuth.getInstance();
-
         // Nếu đã đăng nhập rồi thì vào thẳng MainActivity
-        if (mAuth.getCurrentUser() != null) {
+        if (SessionManager.getInstance().isLoggedIn()) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
             return;
@@ -41,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
         tvRegister = findViewById(R.id.tvRegister);
-        progressBar = findViewById(R.id.progressBar); // thêm ProgressBar vào layout nếu chưa có
+        progressBar = findViewById(R.id.progressBar); 
 
         tvForgotPassword.setOnClickListener(v ->
                 startActivity(new Intent(this, ForgotPasswordActivity.class)));
@@ -67,15 +63,37 @@ public class LoginActivity extends AppCompatActivity {
 
         setLoading(true);
 
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener(result -> {
-                    setLoading(false);
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    setLoading(false);
-                    Toast.makeText(this, "Sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+        com.google.firebase.database.FirebaseDatabase.getInstance().getReference("users")
+                .orderByChild("email").equalTo(email)
+                .addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+                    @Override
+                    public void onDataChange(com.google.firebase.database.DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            for (com.google.firebase.database.DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                String storedPassword = userSnapshot.child("password").getValue(String.class);
+                                String uid = userSnapshot.child("uid").getValue(String.class);
+
+                                if (storedPassword != null && org.mindrot.jbcrypt.BCrypt.checkpw(password, storedPassword)) {
+                                    // Tạo JWT Token và lưu Session
+                                    String token = JwtHelper.generateToken(uid, email);
+                                    SessionManager.getInstance().saveSession(uid, token);
+
+                                    setLoading(false);
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    finish();
+                                    return;
+                                }
+                            }
+                        }
+                        setLoading(false);
+                        Toast.makeText(LoginActivity.this, "Sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(com.google.firebase.database.DatabaseError error) {
+                        setLoading(false);
+                        Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 });
     }
 
