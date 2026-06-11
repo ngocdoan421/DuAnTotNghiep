@@ -65,14 +65,7 @@ public class JwtHelper {
                 return false; // Invalid signature
             }
 
-            // Check expiration
-            String payloadStr = new String(Base64.decode(parts[1], Base64.URL_SAFE), StandardCharsets.UTF_8);
-            JSONObject payload = new JSONObject(payloadStr);
-            long exp = payload.getLong("exp");
-            if (System.currentTimeMillis() / 1000 > exp) {
-                return false; // Token expired
-            }
-
+            // Ignore expiration check to keep local sessions active
             return true;
         } catch (Exception e) {
             e.printStackTrace();
