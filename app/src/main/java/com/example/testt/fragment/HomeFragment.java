@@ -190,7 +190,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadFavoriteIds() {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (!SessionManager.getInstance().isLoggedIn()) {
             favoriteIds.clear();
             newArrivalsAdapter.setFavoriteIds(favoriteIds);
             return;
@@ -212,7 +212,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void handleFavoriteToggle(ProductItem item, boolean shouldAdd) {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (!SessionManager.getInstance().isLoggedIn()) {
             Toast.makeText(requireContext(), "Vui lòng đăng nhập để quản lý yêu thích", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(requireContext(), LoginActivity.class));
             return;
@@ -275,3 +275,4 @@ public class HomeFragment extends Fragment {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
 }
+

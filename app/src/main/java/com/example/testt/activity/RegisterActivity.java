@@ -73,51 +73,70 @@ public class RegisterActivity extends AppCompatActivity {
 
         setLoading(true);
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener(result -> {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    if (user != null) {
-                        UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(fullName)
-                                .build();
-                        user.updateProfile(profileUpdate)
-                                .addOnCompleteListener(task -> {
-                                    UserProfile profile = new UserProfile(
-                                            user.getUid(),
-                                            fullName,
-                                            email,
-                                            "",
-                                            Timestamp.now()
-                                    );
-                                    FirestoreHelper.saveUserProfile(profile, new FirestoreHelper.SimpleCallback() {
-                                        @Override
-                                        public void onSuccess() {
-                                            setLoading(false);
-                                            Toast.makeText(RegisterActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                                            finish();
-                                        }
+        // Check if email already exists
+        com.google.firebase.database.FirebaseDatabase.getInstance().getReference("users")
+                .orderByChild("email").equalTo(email)
+                .addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+                    @Override
+                    public void onDataChange(com.google.firebase.database.DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            setLoading(false);
+                            Toast.makeText(RegisterActivity.this, "Email đã tồn tại", Toast.LENGTH_LONG).show();
+                        } else {
+                            // Hash password
+                            String hashedPassword = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
+                            
+                            // Generate unique UserID
+                            String newUserId = java.util.UUID.randomUUID().toString();
+                            
+                            // Save to Realtime Database
+                            java.util.Map<String, Object> userData = new java.util.HashMap<>();
+                            userData.put("uid", newUserId);
+                            userData.put("email", email);
+                            userData.put("password", hashedPassword);
+                            userData.put("fullName", fullName);
+                            userData.put("createdAt", System.currentTimeMillis());
+                            
+                            com.google.firebase.database.FirebaseDatabase.getInstance().getReference("users")
+                                    .child(newUserId)
+                                    .setValue(userData)
+                                    .addOnSuccessListener(aVoid -> {
+                                        // Generate JWT and auto login
+                                        String token = JwtHelper.generateToken(newUserId, email);
+                                        SessionManager.getInstance().saveSession(newUserId, token);
 
-                                        @Override
-                                        public void onFailure(String error) {
-                                            setLoading(false);
-                                            Toast.makeText(RegisterActivity.this, "Đăng ký thành công nhưng không lưu hồ sơ: " + error, Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                                            finish();
-                                        }
+                                        // Also save profile to Firestore to maintain compatibility with existing app logic
+                                        UserProfile profile = new UserProfile(newUserId, fullName, email, "", Timestamp.now());
+                                        FirestoreHelper.saveUserProfile(profile, new FirestoreHelper.SimpleCallback() {
+                                            @Override
+                                            public void onSuccess() {
+                                                setLoading(false);
+                                                Toast.makeText(RegisterActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                                finish();
+                                            }
+
+                                            @Override
+                                            public void onFailure(String error) {
+                                                setLoading(false);
+                                                Toast.makeText(RegisterActivity.this, "Đăng ký thành công, nhưng lỗi lưu hồ sơ: " + error, Toast.LENGTH_LONG).show();
+                                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                                finish();
+                                            }
+                                        });
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        setLoading(false);
+                                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                     });
-                                });
-                    } else {
-                        setLoading(false);
-                        Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, MainActivity.class));
-                        finish();
+                        }
                     }
-                })
-                .addOnFailureListener(e -> {
-                    setLoading(false);
-                    // Email đã tồn tại hoặc lỗi khác
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                    @Override
+                    public void onCancelled(com.google.firebase.database.DatabaseError error) {
+                        setLoading(false);
+                        Toast.makeText(RegisterActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                 });
     }
 

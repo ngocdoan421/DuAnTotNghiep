@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,7 +46,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -146,7 +144,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void loadFavoriteIds() {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (!SessionManager.getInstance().isLoggedIn()) {
             favoriteIds.clear();
             searchAdapter.setFavoriteIds(favoriteIds);
             return;
@@ -288,7 +286,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void handleFavoriteToggle(ProductItem item, boolean shouldAdd) {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (!SessionManager.getInstance().isLoggedIn()) {
             Toast.makeText(requireContext(), "Vui lòng đăng nhập để quản lý yêu thích", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(requireContext(), LoginActivity.class));
             return;
@@ -351,3 +349,4 @@ public class SearchFragment extends Fragment {
         llStaticContent.setVisibility(View.VISIBLE);
     }
 }
+

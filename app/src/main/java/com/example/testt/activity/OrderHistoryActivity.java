@@ -19,7 +19,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import java.text.SimpleDateFormat;
@@ -56,7 +55,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
     private void loadOrders() {
         if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = SessionManager.getInstance().getUserId();
 
         FirebaseFirestore.getInstance()
                 .collection("orders")
