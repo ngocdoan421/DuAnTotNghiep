@@ -1,0 +1,40 @@
+package com.example.testt.activity;
+
+import com.example.testt.R;
+
+import com.example.testt.activity.*;
+import com.example.testt.fragment.*;
+import com.example.testt.adapter.*;
+import com.example.testt.model.*;
+import com.example.testt.helper.*;
+
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class TrackOrderActivity extends AppCompatActivity {
+
+    private ImageView ivBack;
+    private TextView tvOrderId;
+    private TextView tvEstimatedDelivery;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_track_order);
+
+        ivBack = findViewById(R.id.ivBack);
+        tvOrderId = findViewById(R.id.tvOrderId);
+        tvEstimatedDelivery = findViewById(R.id.tvEstimatedDelivery);
+
+        // Setup back button
+        ivBack.setOnClickListener(v -> finish());
+
+        // Get order ID from intent if passed
+        String orderId = getIntent().getStringExtra("order_id");
+        if (orderId != null) {
+            tvOrderId.setText("MÃ ĐƠN HÀNG: " + orderId);
+        }
+    }
+}

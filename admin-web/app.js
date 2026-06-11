@@ -61,6 +61,7 @@ onAuthStateChanged(auth, async (user) => {
         firebaseStatus.classList.add('connected');
         updateProductCount();
         updateCategoryCount();
+        populateCategoryDropdowns();
         checkFirebaseConnection();
     } else {
         authSection.style.display = 'block';
@@ -195,6 +196,7 @@ singleCategoryForm.addEventListener('submit', async (e) => {
         addLog(`✅ Danh mục "${name}" upload thành công!`, 'success', categoryLog);
         singleCategoryForm.reset();
         updateCategoryCount();
+        populateCategoryDropdowns();
     } catch (error) {
         addLog(`❌ Lỗi: ${error.message}`, 'error', categoryLog);
     }
@@ -220,19 +222,22 @@ document.getElementById('loadProducts').addEventListener('click', async () => {
                 <div class="item-card-body">
                     <div class="item-card-title">${data.name}</div>
                     <div class="item-card-meta">
-                        <div>💵 ${data.price.toLocaleString()} VND</div>
+                        <div>💵 ${Number(data.price).toLocaleString()} VND</div>
                         <div>📁 ${data.categoryId}</div>
-                        <div style="margin-top: 5px;">🔗 ${data.storagePath}</div>
+                        <div style="margin-top: 5px;">🔗 ${data.storagePath || 'N/A'}</div>
                     </div>
                     <div class="item-card-actions">
                         <button class="btn-copy">Sao chép URL</button>
+                        <button class="btn-edit">Sửa</button>
                         <button class="btn-delete">Xóa</button>
                     </div>
                 </div>
             `;
             const copyButton = card.querySelector('.btn-copy');
+            const editButton = card.querySelector('.btn-edit');
             const deleteButton = card.querySelector('.btn-delete');
             copyButton.addEventListener('click', () => copyToClipboard(data.imageUrl));
+            editButton.addEventListener('click', () => openEditProduct(doc.id, data));
             deleteButton.addEventListener('click', () => deleteProduct(doc.id));
             productsList.appendChild(card);
         });
@@ -262,13 +267,16 @@ document.getElementById('loadCategories').addEventListener('click', async () => 
                     </div>
                     <div class="item-card-actions">
                         <button class="btn-copy">Sao chép URL</button>
+                        <button class="btn-edit">Sửa</button>
                         <button class="btn-delete">Xóa</button>
                     </div>
                 </div>
             `;
             const copyButton = card.querySelector('.btn-copy');
+            const editButton = card.querySelector('.btn-edit');
             const deleteButton = card.querySelector('.btn-delete');
             copyButton.addEventListener('click', () => copyToClipboard(data.imageUrl));
+            editButton.addEventListener('click', () => openEditCategory(doc.id, data));
             deleteButton.addEventListener('click', () => deleteCategory(doc.id));
             categoriesList.appendChild(card);
         });
@@ -316,6 +324,7 @@ batchCategoryForm?.addEventListener('submit', async (e) => {
     }
     addLog('✅ Batch upload danh mục hoàn tất', 'success', categoryLog);
     updateCategoryCount();
+    populateCategoryDropdowns();
 });
 
 productSearchInput?.addEventListener('input', () => filterProductList());
@@ -515,6 +524,8 @@ async function deleteCategory(id) {
         await deleteDoc(doc(db, 'categories', id));
         addLog('✅ Danh mục đã xóa thành công!', 'success', manageLog);
         document.getElementById('loadCategories').click();
+        updateCategoryCount();
+        populateCategoryDropdowns();
     } catch (error) {
         addLog(`❌ Lỗi: ${error.message}`, 'error', manageLog);
     }
@@ -538,6 +549,32 @@ async function updateCategoryCount() {
     }
 }
 
+async function populateCategoryDropdowns() {
+    try {
+        const querySnapshot = await getDocs(collection(db, 'categories'));
+        const productCategorySelect = document.getElementById('productCategory');
+        const editProductCategorySelect = document.getElementById('editProductCategory');
+
+        if (!productCategorySelect || !editProductCategorySelect) return;
+
+        let optionsHtml = '<option value="">Chọn Danh Mục...</option>';
+        let editOptionsHtml = '';
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const id = doc.id;
+            const name = data.name || id;
+            optionsHtml += `<option value="${id}">${name}</option>`;
+            editOptionsHtml += `<option value="${id}">${name}</option>`;
+        });
+
+        productCategorySelect.innerHTML = optionsHtml;
+        editProductCategorySelect.innerHTML = editOptionsHtml;
+    } catch (error) {
+        console.error('Lỗi tải danh mục vào dropdown:', error);
+    }
+}
+
 async function checkFirebaseConnection() {
     try {
         await getDocs(collection(db, 'categories'));
@@ -551,8 +588,125 @@ async function checkFirebaseConnection() {
     }
 }
 
+// Edit Modal Logic
+const editProductModal = document.getElementById('editProductModal');
+const editCategoryModal = document.getElementById('editCategoryModal');
+
+function openEditProduct(id, data) {
+    document.getElementById('editProductId').value = id;
+    document.getElementById('editProductName').value = data.name || '';
+    document.getElementById('editProductPrice').value = data.price || 0;
+    document.getElementById('editProductCategory').value = data.categoryId || '';
+    document.getElementById('editProductImageUrl').value = data.imageUrl || '';
+    const fileInput = document.getElementById('editProductImage');
+    if (fileInput) fileInput.value = ''; // Reset file input
+    editProductModal.style.display = 'block';
+}
+
+function openEditCategory(id, data) {
+    document.getElementById('editCategoryId').value = id;
+    document.getElementById('editCategoryName').value = data.name || '';
+    document.getElementById('editCategoryImageUrl').value = data.imageUrl || '';
+    const fileInput = document.getElementById('editCategoryImage');
+    if (fileInput) fileInput.value = ''; // Reset file input
+    editCategoryModal.style.display = 'block';
+}
+
+document.getElementById('closeProductModal')?.addEventListener('click', () => {
+    editProductModal.style.display = 'none';
+});
+
+document.getElementById('closeCategoryModal')?.addEventListener('click', () => {
+    editCategoryModal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === editProductModal) editProductModal.style.display = 'none';
+    if (e.target === editCategoryModal) editCategoryModal.style.display = 'none';
+});
+
+document.getElementById('editProductForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('editProductId').value;
+    const name = document.getElementById('editProductName').value.trim();
+    const price = Number(document.getElementById('editProductPrice').value);
+    const categoryId = document.getElementById('editProductCategory').value;
+    let imageUrl = document.getElementById('editProductImageUrl').value.trim();
+    const file = document.getElementById('editProductImage')?.files[0];
+
+    addLog('💾 Đang lưu thay đổi sản phẩm...', 'info', manageLog);
+    try {
+        const updateData = {
+            name,
+            price,
+            categoryId
+        };
+
+        if (file) {
+            addLog(`📤 Đang tải ảnh mới lên Storage...`, 'info', manageLog);
+            const timestamp = Date.now();
+            const filename = `${timestamp}_${file.name}`;
+            const filepath = `products/${categoryId}/${filename}`;
+            const storageRef = ref(storage, filepath);
+            await uploadBytes(storageRef, file);
+            imageUrl = await getDownloadURL(storageRef);
+            updateData.storagePath = filepath;
+        }
+
+        if (imageUrl) {
+            updateData.imageUrl = imageUrl;
+        }
+
+        await updateDoc(doc(db, 'products', id), updateData);
+        addLog('✅ Cập nhật sản phẩm thành công!', 'success', manageLog);
+        editProductModal.style.display = 'none';
+        document.getElementById('loadProducts').click();
+    } catch (error) {
+        addLog(`❌ Lỗi cập nhật sản phẩm: ${error.message}`, 'error', manageLog);
+    }
+});
+
+document.getElementById('editCategoryForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('editCategoryId').value;
+    const name = document.getElementById('editCategoryName').value.trim();
+    let imageUrl = document.getElementById('editCategoryImageUrl').value.trim();
+    const file = document.getElementById('editCategoryImage')?.files[0];
+
+    addLog('💾 Đang lưu thay đổi danh mục...', 'info', manageLog);
+    try {
+        const updateData = {
+            name
+        };
+
+        if (file) {
+            addLog(`📤 Đang tải ảnh mới cho danh mục lên Storage...`, 'info', manageLog);
+            const timestamp = Date.now();
+            const filename = `${timestamp}_${file.name}`;
+            const filepath = `categories/${id}/${filename}`;
+            const storageRef = ref(storage, filepath);
+            await uploadBytes(storageRef, file);
+            imageUrl = await getDownloadURL(storageRef);
+            updateData.storagePath = filepath;
+        }
+
+        if (imageUrl) {
+            updateData.imageUrl = imageUrl;
+        }
+
+        await updateDoc(doc(db, 'categories', id), updateData);
+        addLog('✅ Cập nhật danh mục thành công!', 'success', manageLog);
+        editCategoryModal.style.display = 'none';
+        document.getElementById('loadCategories').click();
+        populateCategoryDropdowns();
+    } catch (error) {
+        addLog(`❌ Lỗi cập nhật danh mục: ${error.message}`, 'error', manageLog);
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     checkFirebaseConnection();
     updateProductCount();
     updateCategoryCount();
+    populateCategoryDropdowns();
 });

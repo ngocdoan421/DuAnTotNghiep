@@ -11,7 +11,8 @@
         android:id="@+id/topBar"
         android:layout_width="0dp"
         android:layout_height="64dp"
-        android:background="@color/trend_card"
+        android:background="@color/white"
+        android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
@@ -24,6 +25,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/bg_circle_white"
+            android:elevation="2dp"
             android:padding="10dp"
             android:src="@drawable/ic_arrow_back"
             app:tint="@color/trend_text" />
@@ -31,11 +33,11 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:text="Xác Nhận Đơn Hàng"
             android:textColor="@color/trend_text"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -43,29 +45,30 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="16dp"
-        android:paddingBottom="100dp"
+        android:padding="12dp"
         android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintBottom_toTopOf="@id/bottomAction"
+        app:layout_constraintBottom_toTopOf="@id/bottomActionCard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
             <!-- Địa chỉ giao hàng -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardBackgroundColor="@color/trend_card"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/trend_border"
-                app:strokeWidth="1dp">
+                android:layout_marginTop="4dp"
+                android:layout_marginHorizontal="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:text="123 Đường Nguyễn Huệ\nQuận 1, TP. Hồ Chí Minh"
                         android:textColor="@color/trend_text"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:lineSpacingExtra="4dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -99,11 +102,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardBackgroundColor="@color/trend_card"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/trend_border"
-                app:strokeWidth="1dp">
+                android:layout_marginHorizontal="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -140,7 +143,8 @@
                             android:layout_height="wrap_content"
                             android:text="Thẻ tín dụng"
                             android:textColor="@color/trend_text"
-                            android:textSize="15sp" />
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -150,11 +154,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardBackgroundColor="@color/trend_card"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/trend_border"
-                app:strokeWidth="1dp">
+                android:layout_marginHorizontal="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -182,13 +186,15 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            app:boxBackgroundColor="@color/trend_card"
-                            app:boxCornerRadiusTopStart="8dp"
-                            app:boxCornerRadiusTopEnd="8dp"
-                            app:boxCornerRadiusBottomStart="8dp"
-                            app:boxCornerRadiusBottomEnd="8dp"
-                            app:boxStrokeColor="@color/trend_border"
-                            app:boxStrokeWidth="1dp">
+                            app:boxBackgroundMode="filled"
+                            app:boxBackgroundColor="@color/trend_card_soft"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:boxCornerRadiusTopStart="12dp"
+                            app:boxCornerRadiusTopEnd="12dp"
+                            app:boxCornerRadiusBottomStart="12dp"
+                            app:boxCornerRadiusBottomEnd="12dp"
+                            app:hintEnabled="false">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etVoucherCode"
@@ -204,12 +210,12 @@
                             android:id="@+id/btnApplyVoucher"
                             android:layout_width="wrap_content"
                             android:layout_height="48dp"
-                            android:layout_marginStart="8dp"
+                            android:layout_marginStart="10dp"
                             android:text="Áp dụng"
                             android:textAllCaps="false"
-                            app:cornerRadius="8dp"
-                            app:strokeColor="@color/trend_border"
-                            app:strokeWidth="1dp" />
+                            android:textColor="@color/white"
+                            app:backgroundTint="@color/trend_text"
+                            app:cornerRadius="12dp" />
                     </LinearLayout>
 
                     <TextView
@@ -228,11 +234,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardBackgroundColor="@color/trend_card"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/trend_border"
-                app:strokeWidth="1dp">
+                android:layout_marginHorizontal="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -268,14 +274,15 @@
                             android:layout_height="wrap_content"
                             android:text="0đ"
                             android:textColor="@color/trend_text"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="12dp">
+                        android:layout_marginBottom="8dp">
                         <TextView
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -288,7 +295,8 @@
                             android:layout_height="wrap_content"
                             android:text="30.000đ"
                             android:textColor="@color/trend_text"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -309,13 +317,14 @@
                             android:layout_height="wrap_content"
                             android:text="-0đ"
                             android:textColor="@color/trend_text"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/trend_border"
+                        android:background="@color/trend_bg"
                         android:layout_marginBottom="12dp" />
 
                     <LinearLayout
@@ -328,7 +337,7 @@
                             android:layout_height="wrap_content"
                             android:text="Tổng cộng"
                             android:textColor="@color/trend_text"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                         <TextView
                             android:id="@+id/tvTotal"
@@ -336,7 +345,7 @@
                             android:layout_height="wrap_content"
                             android:text="0đ"
                             android:textColor="@color/trend_text"
-                            android:textSize="17sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
@@ -345,36 +354,42 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Button -->
-    <LinearLayout
-        android:id="@+id/bottomAction"
-        android:layout_width="0dp"
+    <!-- Bottom Action Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottomActionCard"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/trend_card"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_margin="16dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnPlaceOrder"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:backgroundTint="@color/trend_text"
-            android:text="Đặt Hàng"
-            android:textColor="@android:color/white"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:cornerRadius="8dp" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPlaceOrder"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:backgroundTint="@color/trend_text"
+                android:text="Đặt Hàng"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="14dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

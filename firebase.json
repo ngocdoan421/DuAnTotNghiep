@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "ketnoifirebase-3a966",
     "public": "admin-web",
     "ignore": [
       "firebase.json",
